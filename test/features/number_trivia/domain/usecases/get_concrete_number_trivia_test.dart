@@ -42,7 +42,7 @@ void main() {
     );
 
     /* NOTE: We verify no more interactions are 
-       happening on the `mockNumberTriviaRepository`
+       happening on the `mockNumberTriviaRepository` 
        because ones we call usecase?.execute(), the 
        usecase should not do anything more after.  */
     verifyNoMoreInteractions(mockNumberTriviaRepository);
