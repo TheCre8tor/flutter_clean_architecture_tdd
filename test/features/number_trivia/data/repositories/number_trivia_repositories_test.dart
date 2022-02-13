@@ -37,22 +37,19 @@ void main() {
   });
 
   group("getConcreteNumberTrivia", () {
-    test(
-      "should check if the device is online.",
-      () async {
-        // #1. arrange -->
-        mockNetworkInfo?.mockOnline();
-        mockRemoteDataSource?.mockConcrete(testNumberTriviaModel);
-        mockLocalDataSource?.mockCacheTrivia();
+    test("should check if the device is online.", () async {
+      // #1. arrange -->
+      mockNetworkInfo?.mockOnline();
+      mockRemoteDataSource?.mockConcrete(testNumberTriviaModel);
+      mockLocalDataSource?.mockCacheTrivia();
 
-        // #2. act -->
-        repository?.getConcreteNumberTrivia(testNumber);
+      // #2. act -->
+      repository?.getConcreteNumberTrivia(testNumber);
 
-        // #3. assert -->
-        // Verify if `mockNetworkInfo?.isConnected` is called.
-        verify(() => mockNetworkInfo?.isConnected);
-      },
-    );
+      // #3. assert -->
+      // Verify if `mockNetworkInfo?.isConnected` is called.
+      verify(() => mockNetworkInfo?.isConnected);
+    });
 
     group('device is online', () {
       setUp(() {
