@@ -20,4 +20,6 @@ class MockRemoteDataSource extends Mock
   void mockRandom(NumberTriviaModel data) {
     return mockRandomCall().thenAnswer((_) async => data);
   }
+
+  void mockRandomError() => mockRandomCall().thenThrow(ServerException());
 }
