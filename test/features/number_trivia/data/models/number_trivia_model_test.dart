@@ -52,4 +52,22 @@ void main() {
       },
     );
   });
+
+  group("toJson", () {
+    test(
+      "should return a JSON containing the proper data.",
+      () async {
+        // act -->
+        final result = testNumberTriviaModel.toJson();
+
+        // assert -->
+        const expectedMap = {
+          "text": "This is a test response from Trivia",
+          "number": 1,
+        };
+
+        expect(result, equals(expectedMap));
+      },
+    );
+  });
 }
