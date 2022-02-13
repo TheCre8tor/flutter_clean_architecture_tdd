@@ -1,4 +1,4 @@
-import 'package:clean_architecture_and_tdd/core/platform/network_info.dart';
+import 'package:clean_architecture_and_tdd/core/network/network_info.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockNetworkInfo extends Mock implements NetworkInfo {
