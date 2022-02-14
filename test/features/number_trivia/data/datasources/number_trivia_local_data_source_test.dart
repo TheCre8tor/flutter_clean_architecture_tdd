@@ -1,19 +1,14 @@
 import 'dart:convert';
 
 import 'package:clean_architecture_and_tdd/core/constants/local_storage_keys.dart';
+import 'package:clean_architecture_and_tdd/core/error/exception.dart';
 import 'package:clean_architecture_and_tdd/features/number_trivia/data/datasources/number_trivia_local_datasource.dart';
 import 'package:clean_architecture_and_tdd/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
-
-class MockSharedPreferences extends Mock implements SharedPreferences {
-  When mockLocalDataCall() => when(() => getString(any()));
-
-  void mockLocalData(String data) => mockLocalDataCall().thenReturn(data);
-}
+import '../mocks/mock_shared_preferences.dart';
 
 void main() {
   NumberTriviaLocalDataSourceImpl? dataSource;
@@ -45,6 +40,45 @@ void main() {
         verify(() => mockSharedPreferences?.getString(CACHED_NUMBER_TRIVIA));
         expect(result, equals(testNumberTriviaModel));
         verifyNoMoreInteractions(mockSharedPreferences);
+      },
+    );
+
+    test(
+      "should throw a CacheException when local storage is empty",
+      () async {
+        // #1. arrange -->
+        mockSharedPreferences?.mockLocalDataError();
+
+        // #2. act -->
+        final call = dataSource!.getLastNumberTrivia;
+
+        // #3. assert -->
+        expect(() => call(), throwsA(const TypeMatcher<CacheException>()));
+      },
+    );
+  });
+
+  group("cacheNumberTrivia", () {
+    const testNumberTriviaModel = NumberTriviaModel(
+      text: "This is a test response from Trivia",
+      number: 1,
+    );
+
+    test(
+      "should call SharedPreferences to cache the data",
+      () async {
+        // arrange -->
+        mockSharedPreferences?.mockSaveData();
+
+        // act -->
+        dataSource?.cacheNumberTrivia(testNumberTriviaModel);
+
+        // assert -->
+        final expectedJsonString = json.encode(testNumberTriviaModel.toJson());
+        verify(() => mockSharedPreferences?.setString(
+              CACHED_NUMBER_TRIVIA,
+              expectedJsonString,
+            ));
       },
     );
   });

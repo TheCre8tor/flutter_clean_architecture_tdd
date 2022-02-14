@@ -23,14 +23,18 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   @override
   Future<NumberTriviaModel> getLastNumberTrivia() {
     final jsonString = sharedPreferences?.getString(CACHED_NUMBER_TRIVIA);
-    final jsonDecode = NumberTriviaModel.fromJson(json.decode(jsonString!));
 
-    return Future.value(jsonDecode);
+    if (jsonString != null) {
+      final jsonDecode = NumberTriviaModel.fromJson(json.decode(jsonString));
+      return Future.value(jsonDecode);
+    } else {
+      throw CacheException();
+    }
   }
 
   @override
   Future<void> cacheNumberTrivia(NumberTriviaModel trivia) async {
-    // TODO: implement getLastNumberTrivia
-    throw UnimplementedError();
+    final jsonEncodeString = json.encode(trivia.toJson());
+    sharedPreferences?.setString(CACHED_NUMBER_TRIVIA, jsonEncodeString);
   }
 }
