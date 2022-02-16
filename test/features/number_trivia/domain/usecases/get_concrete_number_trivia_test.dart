@@ -30,7 +30,7 @@ void main() {
         .thenAnswer((invocation) async => const Right(testNumberTrivia));
 
     // #2. act -->
-    final result = await usecase?.call(const Params(testNumber));
+    final result = await usecase?.call(const Params(number: testNumber));
 
     // #3 assert -->
     expect(result, const Right(testNumberTrivia));
