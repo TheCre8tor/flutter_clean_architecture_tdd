@@ -1,6 +1,9 @@
+import 'package:clean_architecture_and_tdd/core/usecases/usecase.dart';
+
 import 'core/network/network_info.dart';
 import 'core/utils/input_converter.dart';
 import 'features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
+import 'features/number_trivia/domain/entities/number_trivia.dart';
 import 'features/number_trivia/domain/repositories/number_trivia_repository.dart';
 import 'features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'features/number_trivia/domain/usecases/get_random_number_trivia.dart';
@@ -37,17 +40,18 @@ Future<void> init() async {
        that the GetIt instance start looking for all of the 
        registered types. */
     () => NumberTriviaBloc(
-      getConcreteNumberTrivia: serviceLocator.call(),
-      getRandomNumberTrivia: serviceLocator(),
-      inputConverter: serviceLocator(),
+      getConcreteNumberTrivia: serviceLocator<UseCase<NumberTrivia, Params>>(),
+      getRandomNumberTrivia: serviceLocator<UseCase<NumberTrivia, NoParams>>(),
+      inputConverter: serviceLocator<InputConverter>(),
     ),
   );
 
   // 2. Use Cases -->
-  serviceLocator.registerLazySingleton(
+  serviceLocator.registerLazySingleton<UseCase<NumberTrivia, Params>>(
     () => GetConcreteNumberTrivia(serviceLocator()),
   );
-  serviceLocator.registerLazySingleton(
+
+  serviceLocator.registerLazySingleton<UseCase<NumberTrivia, NoParams>>(
     () => GetRandomNumberTrivia(serviceLocator()),
   );
 
@@ -62,22 +66,26 @@ Future<void> init() async {
 
   // 4. Data Source -->
   serviceLocator.registerLazySingleton<NumberTriviaRemoteDataSource>(
-    () => NumberTriviaRemoteDataSourceImpl(client: serviceLocator()),
+    () => NumberTriviaRemoteDataSourceImpl(client: serviceLocator<Client>()),
   );
   serviceLocator.registerLazySingleton<NumberTriviaLocalDataSource>(
-    () => NumberTriviaLocalDataSourceImpl(sharedPreferences: serviceLocator()),
+    () => NumberTriviaLocalDataSourceImpl(
+        sharedPreferences: serviceLocator<SharedPreferences>()),
   );
 
   //? Core
-  serviceLocator.registerLazySingleton(() => InputConverter());
+  serviceLocator.registerLazySingleton<InputConverter>(() => InputConverter());
   serviceLocator.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(serviceLocator()),
   );
 
   //? External
-  serviceLocator.registerLazySingletonAsync<SharedPreferences>(
-    () => SharedPreferences.getInstance(),
+  final sharedPreferences = await SharedPreferences.getInstance();
+  serviceLocator.registerLazySingleton<SharedPreferences>(
+    () => sharedPreferences,
   );
-  serviceLocator.registerLazySingleton(() => Client());
-  serviceLocator.registerLazySingleton(() => InternetConnectionChecker());
+
+  serviceLocator.registerLazySingleton<Client>(() => Client());
+  serviceLocator.registerLazySingleton<InternetConnectionChecker>(
+      () => InternetConnectionChecker());
 }

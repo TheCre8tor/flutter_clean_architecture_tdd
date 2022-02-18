@@ -22,8 +22,8 @@ const String INVALID_INPUT_FAILURE_MESSAGE =
     "Invalid Input - The number must be a positive integer or zero";
 
 class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
-  final GetConcreteNumberTrivia? getConcreteNumberTrivia;
-  final GetRandomNumberTrivia? getRandomNumberTrivia;
+  final UseCase<NumberTrivia, Params>? getConcreteNumberTrivia;
+  final UseCase<NumberTrivia, NoParams>? getRandomNumberTrivia;
   final InputConverter? inputConverter;
 
   NumberTriviaBloc({

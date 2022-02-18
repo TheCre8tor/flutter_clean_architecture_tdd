@@ -29,10 +29,7 @@ class NumberTriviaPage extends StatelessWidget {
                       );
                     }
                     return SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height / 3,
+                      height: MediaQuery.of(context).size.height / 3,
                       child: const Placeholder(),
                     );
                   },
