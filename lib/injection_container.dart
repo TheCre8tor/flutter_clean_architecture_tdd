@@ -40,9 +40,9 @@ Future<void> init() async {
        that the GetIt instance start looking for all of the 
        registered types. */
     () => NumberTriviaBloc(
-      getConcreteNumberTrivia: serviceLocator<UseCase<NumberTrivia, Params>>(),
-      getRandomNumberTrivia: serviceLocator<UseCase<NumberTrivia, NoParams>>(),
-      inputConverter: serviceLocator<InputConverter>(),
+      getConcreteNumberTrivia: serviceLocator(),
+      getRandomNumberTrivia: serviceLocator(),
+      inputConverter: serviceLocator(),
     ),
   );
 
@@ -66,11 +66,10 @@ Future<void> init() async {
 
   // 4. Data Source -->
   serviceLocator.registerLazySingleton<NumberTriviaRemoteDataSource>(
-    () => NumberTriviaRemoteDataSourceImpl(client: serviceLocator<Client>()),
+    () => NumberTriviaRemoteDataSourceImpl(client: serviceLocator()),
   );
   serviceLocator.registerLazySingleton<NumberTriviaLocalDataSource>(
-    () => NumberTriviaLocalDataSourceImpl(
-        sharedPreferences: serviceLocator<SharedPreferences>()),
+    () => NumberTriviaLocalDataSourceImpl(sharedPreferences: serviceLocator()),
   );
 
   //? Core
