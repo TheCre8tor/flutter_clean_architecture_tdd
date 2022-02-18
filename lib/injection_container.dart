@@ -24,7 +24,7 @@ final serviceLocator = GetIt.instance;
    2. Singleton / Lazy Singleton: This will always grant
       the same instance after the first call to GetIt */
 
-void init() {
+Future<void> init() async {
   //? Features / Screens - Number Trivia
   /* NOTE: The first thing which we are going to register is is 
      Bloc, because it's at the top of the call chain, when we go 
