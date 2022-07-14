@@ -16,7 +16,7 @@ class NumberTriviaPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: BlocProvider(
-          create: (_) => serviceLocator<NumberTriviaBloc>(),
+          create: (_) => container<NumberTriviaBloc>(),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(10),

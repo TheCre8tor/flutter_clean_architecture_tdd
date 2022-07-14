@@ -9,7 +9,6 @@ import 'features/number_trivia/domain/repositories/number_trivia_repository.dart
 import 'features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
-// import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'features/number_trivia/data/datasources/number_trivia_local_datasource.dart';
 import 'features/number_trivia/data/datasources/number_trivia_remote_datasource.dart';
 
-final serviceLocator = KiwiContainer();
+final container = KiwiContainer();
 
 /* Difference between Factory & Singleton
 
@@ -35,7 +34,7 @@ Future<void> init() async {
      from the UI down to does external data related dependency. */
 
   // 1. Bloc -->
-  serviceLocator.registerFactory(
+  container.registerFactory(
     // # Service Locator is also a callable class -->
     /* EXPLANATION: What happens inside the call method is 
        that the GetIt instance start looking for all of the 
@@ -50,16 +49,16 @@ Future<void> init() async {
   );
 
   // 2. Use Cases -->
-  serviceLocator.registerSingleton<UseCase<NumberTrivia, Params>>(
+  container.registerSingleton<UseCase<NumberTrivia, Params>>(
     (c) => GetConcreteNumberTrivia(c.resolve<NumberTriviaRepository>()),
   );
 
-  serviceLocator.registerSingleton<UseCase<NumberTrivia, NoParams>>(
-    (c) => GetRandomNumberTrivia(serviceLocator<NumberTriviaRepository>()),
+  container.registerSingleton<UseCase<NumberTrivia, NoParams>>(
+    (c) => GetRandomNumberTrivia(container<NumberTriviaRepository>()),
   );
 
   // 3. Repository -->
-  serviceLocator.registerSingleton(
+  container.registerSingleton(
     (c) => NumberTriviaRepositoryImpl(
       remoteDataSource:
           NumberTriviaRemoteDataSourceImpl(client: c.resolve<Client>()),
@@ -70,26 +69,26 @@ Future<void> init() async {
   );
 
   // 4. Data Source -->
-  // serviceLocator.registerLazySingleton<NumberTriviaRemoteDataSource>(
-  //   () => NumberTriviaRemoteDataSourceImpl(client: serviceLocator()),
+  // container.registerLazySingleton<NumberTriviaRemoteDataSource>(
+  //   () => NumberTriviaRemoteDataSourceImpl(client: container()),
   // );
-  // serviceLocator.registerLazySingleton<NumberTriviaLocalDataSource>(
-  //   () => NumberTriviaLocalDataSourceImpl(sharedPreferences: serviceLocator()),
+  // container.registerLazySingleton<NumberTriviaLocalDataSource>(
+  //   () => NumberTriviaLocalDataSourceImpl(sharedPreferences: container()),
   // );
 
   //? Core
-  serviceLocator.registerSingleton<InputConverter>((c) => InputConverter());
-  // serviceLocator.registerSingleton<NetworkInfo>(
-  //   (c) => NetworkInfoImpl(serviceLocator()),
+  container.registerSingleton<InputConverter>((c) => InputConverter());
+  // container.registerSingleton<NetworkInfo>(
+  //   (c) => NetworkInfoImpl(container()),
   // );
 
   //? External
   final sharedPreferences = await SharedPreferences.getInstance();
-  serviceLocator.registerSingleton<SharedPreferences>(
+  container.registerSingleton<SharedPreferences>(
     (c) => sharedPreferences,
   );
 
-  serviceLocator.registerSingleton<Client>((c) => Client());
-  serviceLocator.registerSingleton<InternetConnectionChecker>(
+  container.registerSingleton<Client>((c) => Client());
+  container.registerSingleton<InternetConnectionChecker>(
       (c) => InternetConnectionChecker());
 }
