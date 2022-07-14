@@ -10,12 +10,12 @@ import '../../../../fixtures/fixture_reader.dart';
 import '../mocks/mock_http_client.dart';
 
 void main() {
-  NumberTriviaRemoteDataSourceImpl? dataSource;
+  NumberTriviaRemoteDataSource? dataSource;
   MockHttpClient? mockHttpClient;
 
   setUp(() {
     mockHttpClient = MockHttpClient();
-    dataSource = NumberTriviaRemoteDataSourceImpl(client: mockHttpClient);
+    dataSource = NumberTriviaRemoteDataSource(client: mockHttpClient);
     registerFallbackValue(Uri.parse("http://numbersapi.com/"));
   });
 

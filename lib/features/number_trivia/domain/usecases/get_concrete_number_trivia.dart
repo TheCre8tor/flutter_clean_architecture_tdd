@@ -4,10 +4,10 @@ import 'package:clean_architecture_and_tdd/features/number_trivia/domain/entitie
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../repositories/number_trivia_repository.dart';
+import '../../data/repositories/base_number_trivia_repository.dart';
 
 class GetConcreteNumberTrivia implements UseCase<NumberTrivia, Params> {
-  final NumberTriviaRepository repository;
+  final BaseNumberTriviaRepository repository;
 
   GetConcreteNumberTrivia(this.repository);
 

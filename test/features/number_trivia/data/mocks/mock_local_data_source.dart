@@ -3,7 +3,8 @@ import 'package:clean_architecture_and_tdd/features/number_trivia/data/datasourc
 import 'package:clean_architecture_and_tdd/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockLocalDataSource extends Mock implements NumberTriviaLocalDataSource {
+class MockLocalDataSource extends Mock
+    implements BaseNumberTriviaLocalDataSource {
   When mockCacheTriviaCall() => when(() => cacheNumberTrivia(any()));
 
   void mockCacheTrivia() {

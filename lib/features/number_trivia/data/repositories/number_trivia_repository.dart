@@ -5,17 +5,17 @@ import 'package:clean_architecture_and_tdd/features/number_trivia/data/datasourc
 import 'package:clean_architecture_and_tdd/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:clean_architecture_and_tdd/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:clean_architecture_and_tdd/core/error/failure.dart';
-import 'package:clean_architecture_and_tdd/features/number_trivia/domain/repositories/number_trivia_repository.dart';
+import 'package:clean_architecture_and_tdd/features/number_trivia/data/repositories/base_number_trivia_repository.dart';
 import 'package:dartz/dartz.dart';
 
 typedef _ConcreteOrRandomChooser = Future<NumberTriviaModel> Function();
 
-class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
-  final NumberTriviaRemoteDataSource? remoteDataSource;
-  final NumberTriviaLocalDataSource? localDataSource;
+class NumberTriviaRepository implements BaseNumberTriviaRepository {
+  final BaseNumberTriviaRemoteDataSource? remoteDataSource;
+  final BaseNumberTriviaLocalDataSource? localDataSource;
   final NetworkInfo? networkInfo;
 
-  NumberTriviaRepositoryImpl({
+  NumberTriviaRepository({
     required this.remoteDataSource,
     required this.localDataSource,
     required this.networkInfo,

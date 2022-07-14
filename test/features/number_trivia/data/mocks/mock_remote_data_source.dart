@@ -4,7 +4,7 @@ import 'package:clean_architecture_and_tdd/features/number_trivia/data/models/nu
 import 'package:mocktail/mocktail.dart';
 
 class MockRemoteDataSource extends Mock
-    implements NumberTriviaRemoteDataSource {
+    implements BaseNumberTriviaRemoteDataSource {
   When mockConcreteCall() => when(() => getConcreteNumberTrivia(any()));
 
   /// Mocks methods for [getConcreteNumberTrivia]

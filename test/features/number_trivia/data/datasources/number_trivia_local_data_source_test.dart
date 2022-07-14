@@ -11,12 +11,12 @@ import '../../../../fixtures/fixture_reader.dart';
 import '../mocks/mock_shared_preferences.dart';
 
 void main() {
-  NumberTriviaLocalDataSourceImpl? dataSource;
+  NumberTriviaLocalDataSource? dataSource;
   MockSharedPreferences? mockSharedPreferences;
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
-    dataSource = NumberTriviaLocalDataSourceImpl(
+    dataSource = NumberTriviaLocalDataSource(
       sharedPreferences: mockSharedPreferences,
     );
   });

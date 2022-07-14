@@ -1,6 +1,6 @@
 import 'package:clean_architecture_and_tdd/core/error/failure.dart';
 import 'package:clean_architecture_and_tdd/features/number_trivia/data/models/number_trivia_model.dart';
-import 'package:clean_architecture_and_tdd/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
+import 'package:clean_architecture_and_tdd/features/number_trivia/data/repositories/number_trivia_repository.dart';
 import 'package:clean_architecture_and_tdd/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,7 +11,7 @@ import '../mocks/mock_network_info.dart';
 import '../mocks/mock_remote_data_source.dart';
 
 void main() {
-  NumberTriviaRepositoryImpl? repository;
+  NumberTriviaRepository? repository;
   MockRemoteDataSource? mockRemoteDataSource;
   MockLocalDataSource? mockLocalDataSource;
   MockNetworkInfo? mockNetworkInfo;
@@ -28,7 +28,7 @@ void main() {
     mockRemoteDataSource = MockRemoteDataSource();
     mockLocalDataSource = MockLocalDataSource();
     mockNetworkInfo = MockNetworkInfo();
-    repository = NumberTriviaRepositoryImpl(
+    repository = NumberTriviaRepository(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
       networkInfo: mockNetworkInfo,

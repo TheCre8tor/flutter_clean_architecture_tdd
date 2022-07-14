@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 
 import '../models/number_trivia_model.dart';
 
-abstract class NumberTriviaRemoteDataSource {
+abstract class BaseNumberTriviaRemoteDataSource {
   /// Calls the http://numberapi.com/{number} endpoints.
   ///
   /// Throws a [ServerException] for all error codes.
@@ -17,10 +17,10 @@ abstract class NumberTriviaRemoteDataSource {
   Future<NumberTriviaModel> getRandomNumberTrivia();
 }
 
-class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
+class NumberTriviaRemoteDataSource implements BaseNumberTriviaRemoteDataSource {
   final Client? client;
 
-  NumberTriviaRemoteDataSourceImpl({required this.client});
+  NumberTriviaRemoteDataSource({required this.client});
 
   @override
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number) {
