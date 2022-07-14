@@ -13,12 +13,12 @@ class MockInternetConnectionChecker extends Mock
 }
 
 void main() async {
-  NetworkInfoImpl? networkInfo;
+  NetworkInfo? networkInfo;
   MockInternetConnectionChecker? mockInternetConnectionChecker;
 
   setUp(() {
     mockInternetConnectionChecker = MockInternetConnectionChecker();
-    networkInfo = NetworkInfoImpl(mockInternetConnectionChecker);
+    networkInfo = NetworkInfo(mockInternetConnectionChecker);
   });
 
   group("isConnected", () {

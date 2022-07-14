@@ -33,7 +33,6 @@ dependencies:
   # Functional Programming -->
   dartz: ^0.10.1
   # Service locator -->
-  get_it: ^7.2.0
   kiwi: ^4.0.2
   # State management -->
   flutter_bloc: ^8.0.1

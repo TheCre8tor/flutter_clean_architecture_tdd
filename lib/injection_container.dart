@@ -1,11 +1,8 @@
-import 'package:clean_architecture_and_tdd/core/usecases/usecase.dart';
 import 'package:kiwi/kiwi.dart';
 
 import 'core/network/network_info.dart';
 import 'core/utils/input_converter.dart';
 import 'features/number_trivia/data/repositories/number_trivia_repository.dart';
-import 'features/number_trivia/domain/entities/number_trivia.dart';
-import 'features/number_trivia/data/repositories/base_number_trivia_repository.dart';
 import 'features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
@@ -40,60 +37,51 @@ Future<void> init() async {
        that the GetIt instance start looking for all of the 
        registered types. */
     (c) => NumberTriviaBloc(
-      getConcreteNumberTrivia: GetConcreteNumberTrivia(
-        c.resolve<NumberTriviaRepository>(),
-      ),
-      getRandomNumberTrivia: GetRandomNumberTrivia(
-        c.resolve<NumberTriviaRepository>(),
-      ),
+      getConcreteNumberTrivia: c.resolve<GetConcreteNumberTrivia>(),
+      getRandomNumberTrivia: c.resolve<GetRandomNumberTrivia>(),
       inputConverter: c.resolve<InputConverter>(),
     ),
   );
 
   // 2. Use Cases -->
-  // container.registerSingleton(
-  //   (c) => GetConcreteNumberTrivia(c.resolve<BaseNumberTriviaRepository>()),
-  // );
+  container.registerSingleton(
+    (c) => GetConcreteNumberTrivia(c.resolve<NumberTriviaRepository>()),
+  );
 
-  // container.registerSingleton(
-  //   (c) => GetRandomNumberTrivia(c.resolve<BaseNumberTriviaRepository>()),
-  // );
+  container.registerSingleton(
+    (c) => GetRandomNumberTrivia(c.resolve<NumberTriviaRepository>()),
+  );
 
   // 3. Repository -->
   container.registerSingleton(
     (c) => NumberTriviaRepository(
-      remoteDataSource: NumberTriviaRemoteDataSource(
-        client: c.resolve<Client>(),
-      ),
-      localDataSource: NumberTriviaLocalDataSource(
-        sharedPreferences: c.resolve<SharedPreferences>(),
-      ),
-      networkInfo: NetworkInfoImpl(c.resolve<InternetConnectionChecker>()),
+      remoteDataSource: c.resolve<NumberTriviaRemoteDataSource>(),
+      localDataSource: c.resolve<NumberTriviaLocalDataSource>(),
+      networkInfo: c.resolve<NetworkInfo>(),
     ),
   );
 
   // 4. Data Source -->
-  // container.registerLazySingleton<NumberTriviaRemoteDataSource>(
-  //   () => NumberTriviaRemoteDataSourceImpl(client: container()),
-  // );
-  // container.registerLazySingleton<NumberTriviaLocalDataSource>(
-  //   () => NumberTriviaLocalDataSourceImpl(sharedPreferences: container()),
-  // );
+  container.registerSingleton(
+    (c) => NumberTriviaRemoteDataSource(client: c.resolve<Client>()),
+  );
+
+  container.registerSingleton(
+    (c) => NumberTriviaLocalDataSource(
+      sharedPreferences: c.resolve<SharedPreferences>(),
+    ),
+  );
 
   //? Core
-  container.registerSingleton<InputConverter>((c) => InputConverter());
-  // container.registerSingleton<NetworkInfo>(
-  //   (c) => NetworkInfoImpl(container()),
-  // );
+  container.registerSingleton((c) => InputConverter());
+  container.registerSingleton(
+    (c) => NetworkInfo(c.resolve<InternetConnectionChecker>()),
+  );
 
   //? External
   final sharedPreferences = await SharedPreferences.getInstance();
-  container.registerSingleton<SharedPreferences>(
-    (c) => sharedPreferences,
-  );
+  container.registerSingleton((c) => sharedPreferences);
 
-  container.registerSingleton<Client>((c) => Client());
-  container.registerSingleton<InternetConnectionChecker>(
-    (c) => InternetConnectionChecker(),
-  );
+  container.registerSingleton((c) => Client());
+  container.registerSingleton((c) => InternetConnectionChecker());
 }
