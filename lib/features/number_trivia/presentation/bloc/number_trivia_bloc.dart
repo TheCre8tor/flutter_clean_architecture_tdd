@@ -74,7 +74,7 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
     Either<Failure, NumberTrivia> failureOrTrivia,
     Emitter<NumberTriviaState> emit,
   ) async {
-    await failureOrTrivia.fold((Failure failure) {
+    failureOrTrivia.fold((Failure failure) {
       emit(Error(message: failure.mapFailureToMessage(failure)));
     }, (NumberTrivia trivia) {
       emit(Loaded(trivia: trivia));

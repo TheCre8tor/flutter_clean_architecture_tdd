@@ -34,6 +34,7 @@ dependencies:
   dartz: ^0.10.1
   # Service locator -->
   get_it: ^7.2.0
+  kiwi: ^4.0.2
   # State management -->
   flutter_bloc: ^8.0.1
   # Value equality -->
@@ -51,6 +52,8 @@ dev_dependencies:
   # Testing -->
   mocktail: ^0.2.0
   bloc_test: ^9.0.2
+  flutter_driver:
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

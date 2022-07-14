@@ -20,6 +20,7 @@ class _TriviaControlsState extends State<TriviaControls> {
     return Column(
       children: [
         TextField(
+          key: const Key("search_input_field"),
           controller: _controller,
           keyboardType: TextInputType.number,
           decoration: const InputDecoration(
@@ -38,6 +39,7 @@ class _TriviaControlsState extends State<TriviaControls> {
           children: [
             Expanded(
               child: ElevatedButton(
+                key: const Key("concrete_search"),
                 onPressed: dispatchConcrete,
                 child: const Text("Search"),
               ),
@@ -45,6 +47,7 @@ class _TriviaControlsState extends State<TriviaControls> {
             const SizedBox(width: 10),
             Expanded(
               child: ElevatedButton(
+                key: const Key("random_search"),
                 onPressed: dispatchRandom,
                 child: const Text("Get Random Trivia"),
               ),

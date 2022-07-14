@@ -27,12 +27,16 @@ class NumberTriviaPage extends StatelessWidget {
                     builder: (context, state) {
                       if (state is Empty) {
                         return const MessageDisplay(
+                          key: Key("initial_state"),
                           message: "Start searching...",
                         );
                       } else if (state is Loading) {
                         return const LoadingWidget();
                       } else if (state is Loaded) {
-                        return TriviaDisplay(numberTrivia: state.trivia);
+                        return TriviaDisplay(
+                          key: const Key("loaded_trivia"),
+                          numberTrivia: state.trivia,
+                        );
                       } else if (state is Error) {
                         return MessageDisplay(message: state.message);
                       }
