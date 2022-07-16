@@ -46,13 +46,13 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^1.0.0
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   # Testing -->
   mocktail: ^0.2.0
   bloc_test: ^9.0.2
-  flutter_driver:
-    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

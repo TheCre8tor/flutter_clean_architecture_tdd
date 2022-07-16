@@ -15,13 +15,13 @@ import 'features/number_trivia/data/datasources/number_trivia_remote_datasource.
 
 final container = KiwiContainer();
 
-/* Difference between Factory & Singleton
+/* Difference between Factory & Factory
 
    1. Factories: factories always instantiate a new
       instance of a given class whenever we request it.
       We will always get a new instance on every calls
       
-   2. Singleton / Lazy Singleton: This will always grant
+   2. Factory / Lazy Factory: This will always grant
       the same instance after the first call to GetIt */
 
 Future<void> init() async {
@@ -44,16 +44,16 @@ Future<void> init() async {
   );
 
   // 2. Use Cases -->
-  container.registerSingleton(
+  container.registerFactory(
     (c) => GetConcreteNumberTrivia(c.resolve<NumberTriviaRepository>()),
   );
 
-  container.registerSingleton(
+  container.registerFactory(
     (c) => GetRandomNumberTrivia(c.resolve<NumberTriviaRepository>()),
   );
 
   // 3. Repository -->
-  container.registerSingleton(
+  container.registerFactory(
     (c) => NumberTriviaRepository(
       remoteDataSource: c.resolve<NumberTriviaRemoteDataSource>(),
       localDataSource: c.resolve<NumberTriviaLocalDataSource>(),
@@ -62,26 +62,26 @@ Future<void> init() async {
   );
 
   // 4. Data Source -->
-  container.registerSingleton(
+  container.registerFactory(
     (c) => NumberTriviaRemoteDataSource(client: c.resolve<Client>()),
   );
 
-  container.registerSingleton(
+  container.registerFactory(
     (c) => NumberTriviaLocalDataSource(
       sharedPreferences: c.resolve<SharedPreferences>(),
     ),
   );
 
   //? Core
-  container.registerSingleton((c) => InputConverter());
-  container.registerSingleton(
+  container.registerFactory((c) => InputConverter());
+  container.registerFactory(
     (c) => NetworkInfo(c.resolve<InternetConnectionChecker>()),
   );
 
   //? External
   final sharedPreferences = await SharedPreferences.getInstance();
-  container.registerSingleton((c) => sharedPreferences);
+  container.registerFactory((c) => sharedPreferences);
 
-  container.registerSingleton((c) => Client());
-  container.registerSingleton((c) => InternetConnectionChecker());
+  container.registerFactory((c) => Client());
+  container.registerFactory((c) => InternetConnectionChecker());
 }

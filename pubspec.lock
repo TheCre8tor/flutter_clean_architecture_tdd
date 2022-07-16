@@ -168,7 +168,7 @@ packages:
     source: hosted
     version: "8.0.1"
   flutter_driver:
-    dependency: "direct dev"
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -229,6 +229,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
+  integration_test:
+    dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   internet_connection_checker:
     dependency: "direct main"
     description:
