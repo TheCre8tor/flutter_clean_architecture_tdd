@@ -45,6 +45,7 @@ class _TriviaControlsState extends State<TriviaControls> {
             const SizedBox(width: 10),
             Expanded(
               child: ElevatedButton(
+                key: const Key("random_button"),
                 onPressed: dispatchRandom,
                 child: const Text("Get Random Trivia"),
               ),

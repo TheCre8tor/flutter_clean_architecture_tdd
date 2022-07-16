@@ -27,6 +27,7 @@ class NumberTriviaPage extends StatelessWidget {
                     builder: (context, state) {
                       if (state is Empty) {
                         return const MessageDisplay(
+                          key: Key("initial_state"),
                           message: "Start searching...",
                         );
                       } else if (state is Loading) {
