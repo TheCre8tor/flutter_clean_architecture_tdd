@@ -1,10 +1,10 @@
+import 'package:clean_architecture_and_tdd/injector.dart';
 import 'package:flutter/material.dart';
-import './injection_container.dart' as dependency_injection;
 import 'features/number_trivia/presentation/pages/number_trivia_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dependency_injection.init();
+  await Injector.setup();
 
   runApp(const MyApp());
 }

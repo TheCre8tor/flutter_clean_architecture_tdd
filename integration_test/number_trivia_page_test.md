@@ -2,44 +2,41 @@ import 'package:clean_architecture_and_tdd/features/number_trivia/domain/usecase
 import 'package:clean_architecture_and_tdd/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:clean_architecture_and_tdd/features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
 import 'package:clean_architecture_and_tdd/features/number_trivia/presentation/pages/number_trivia_page.dart';
+import 'package:clean_architecture_and_tdd/injector.dart';
 import 'package:flutter/material.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:clean_architecture_and_tdd/injection_container.dart' as di;
+import 'package:integration_test/integration_test.dart';
 
 class MockNumberTriviaBloc extends Mock implements NumberTriviaBloc {}
 
 class MockGetConcreteNumberTrivia extends Mock
-    implements GetConcreteNumberTrivia {}
+implements GetConcreteNumberTrivia {}
 
 class MockGetRandomNumberTrivia extends Mock implements GetRandomNumberTrivia {}
 
-void main() {
-  MockNumberTriviaBloc? mockNumberTriviaBloc = MockNumberTriviaBloc();
+void main() async {
+await Injector.setup();
 
-  const Widget testWidget = MediaQuery(
-    data: MediaQueryData(),
-    child: MaterialApp(
-      home: NumberTriviaPage(),
-    ),
-  );
+IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+MockNumberTriviaBloc? mockNumberTriviaBloc = MockNumberTriviaBloc();
 
-  setUp(() async {
-    await di.init();
-    // mockNumberTriviaBloc = MockNumberTriviaBloc();
-    // serviceLocator.allowReassignment = true;
-    // serviceLocator.registerLazySingleton<NumberTriviaBloc>(
-    //   () => mockNumberTriviaBloc,
-    // );
-    // when(() => mockNumberTriviaBloc.getConcreteNumberTrivia).thenAnswer((_) => GetConcreteNumberTrivia(repository));
-    // when(() => mockNumberTriviaBloc.state).thenAnswer((_) => Empty());
-  });
+const Widget testWidget = MediaQuery(
+data: MediaQueryData(),
+child: MaterialApp(
+home: NumberTriviaPage(),
+),
+);
 
-  group("Number Trivia Page", () {
-    testWidgets(
-      "should check if the initial state of the page is Empty",
-      (WidgetTester tester) async {
-        when(() => mockNumberTriviaBloc.state).thenAnswer((_) => Empty());
+setUp(() async {
+Injector.container.clear();
+});
+
+group("Number Trivia Page", () {
+testWidgets(
+"should check if the initial state of the page is Empty",
+(WidgetTester tester) async {
+// when(() => mockNumberTriviaBloc.state).thenAnswer((\_) => Empty());
 
         await tester.pumpWidget(testWidget);
 
@@ -50,7 +47,8 @@ void main() {
 
     testWidgets("should tap the search button", (WidgetTester tester) async {
       await tester.pumpWidget(testWidget);
-      // await tester.tap(find.byKey(Key("")))
+      await tester.tap(find.byKey(const Key("random_search")));
     });
-  });
+
+});
 }

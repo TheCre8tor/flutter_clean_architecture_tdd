@@ -1,7 +1,7 @@
+import 'package:clean_architecture_and_tdd/injector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../injection_container.dart';
 import '../bloc/number_trivia_bloc.dart';
 import '../widgets/widgets.dart';
 
@@ -16,7 +16,7 @@ class NumberTriviaPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: BlocProvider(
-          create: (_) => container<NumberTriviaBloc>(),
+          create: (_) => Injector.container.resolve<NumberTriviaBloc>(),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(10),
